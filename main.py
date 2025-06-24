@@ -32,6 +32,13 @@ def main():
 				return
 		
 		updatable.update(dt)
+		# Check for collisions between player and asteroids
+		for asteroid in asteroids:
+			if player.collides_with(asteroid):
+				print("Game Over!")
+				pygame.quit()
+				return
+
 		screen.fill("black")
 		for sprite in drawable:
 			sprite.draw(screen)
