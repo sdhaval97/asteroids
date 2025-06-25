@@ -32,7 +32,7 @@ A modern take on the classic **Asteroids** arcade game, built using Python and P
 ## 🛠️ Requirements
 
 - Python 3.8 or later  
-- Pygame (`pip install pygame`)
+- Pygame (`pip install -U pygame==2.6.1`)
 
 ---
 
