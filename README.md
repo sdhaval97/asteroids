@@ -25,7 +25,7 @@ A modern take on the classic **Asteroids** arcade game, built using Python and P
 | `W`        | Thrust forward          |
 | `S`        | Thrust backward         |
 | `SPACEBAR` | Shoot                   |
-| `ESC` or Close Window | Exit game     |
+| Close Window | Exit game     |
 
 ---
 
