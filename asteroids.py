@@ -27,7 +27,7 @@ class Asteroid(CircleShape, pygame.sprite.Sprite):
         vel1 = self.velocity.rotate(random_angle)
         vel2 = self.velocity.rotate(-random_angle)  
         
-        new_radius = self.radius * ASTEROID_MIN_RADIUS
+        new_radius = self.radius - ASTEROID_MIN_RADIUS
         
         a1 = Asteroid(self.position.x, self.position.y, new_radius)
         a2 = Asteroid(self.position.x, self.position.y, new_radius)
