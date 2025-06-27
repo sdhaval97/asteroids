@@ -13,6 +13,8 @@ class Player(CircleShape, pygame.sprite.Sprite):
         self.rotation = 0
         self.add(*self.containers)
         self.shoot_timer = 0
+        self.invincible = False
+        self.invincible_timer = 0
     
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -23,6 +25,11 @@ class Player(CircleShape, pygame.sprite.Sprite):
         return [a, b, c]
 
     def draw(self, screen):
+        if self.invincible:
+            color = (150, 150, 150)
+        else:
+            color = (255, 255, 255)
+        
         points = self.triangle()
         pygame.draw.polygon(screen, (255, 255, 255), points, 2)
         
@@ -47,6 +54,11 @@ class Player(CircleShape, pygame.sprite.Sprite):
         if keys[pygame.K_SPACE] and self.shoot_timer <= 0:
             self.shoot()
             self.shoot_timer = PLAYER_SHOOT_COOLDOWN
+        
+        if self.invincible:
+            self.invincible_timer -= dt
+            if self.invincible_timer <= 0:
+                self.invincible = False
             
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -56,5 +68,9 @@ class Player(CircleShape, pygame.sprite.Sprite):
         shot = Shot(self.position.x, self.position.y)
         direction = pygame.Vector2(0, 1).rotate(self.rotation)
         shot.velocity = direction * PLAYER_SHOOT_SPEED
+    
+    def set_invincible(self, duration):
+        self.invincible = True
+        self.invincible_timer = duration
     
             
