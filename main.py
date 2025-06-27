@@ -12,7 +12,11 @@ def main():
 	
 	clock = pygame.time.Clock()
 	dt = 0
-	
+ 
+	scoreboard = ScoreBoard()
+	lives = 3
+	font = pygame.font.Font(None, 36)
+
 	updatable = pygame.sprite.Group()
 	drawable = pygame.sprite.Group()
 	asteroids = pygame.sprite.Group()
@@ -22,8 +26,6 @@ def main():
 	Asteroid.containers = (asteroids, updatable, drawable)	
 	AsteroidField.containers = (updatable,)
 	Shot.containers = (shots, updatable, drawable)
-	
-	scoreboard = ScoreBoard()
 
 	player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 	asteroid_field = AsteroidField()
@@ -40,10 +42,16 @@ def main():
 		updatable.update(dt)
 		# Check for collisions between player and asteroids
 		for asteroid in asteroids:
-			if player.collides_with(asteroid):
-				print("Game Over!")
-				pygame.quit()
-				return
+			if not player.invincible and player.collides_with(asteroid):
+				asteroid.kill()
+				lives -= 1
+				player.set_invincible(2)  # Set invincibility for 2 seconds
+				print(f"Player hit! Lives left: {lives}")
+
+				if lives <= 0:
+					print("Game Over!")
+					pygame.quit()
+					return
 
 		# Check for collisions between shots and asteroids
 		for asteroid in asteroids:
@@ -56,7 +64,12 @@ def main():
 		screen.fill("black")
 		for sprite in drawable:
 			sprite.draw(screen)
-		scoreboard.draw(screen)
+
+		score_text = font.render(f"Score: {scoreboard.score}", True, (255, 255, 255))
+		lives_text = font.render(f"Lives: {lives}", True, (255, 255, 255))	
+		screen.blit(score_text, (10, 10))
+		screen.blit(lives_text, (10, 50))
+		
 		pygame.display.flip()
 		dt = clock.tick(60)/1000
 		
